@@ -1,0 +1,32 @@
+pipeline{
+    agent any
+    
+    stages{
+        stage('Code'){
+            steps{
+                echo "Taking data from git"
+                git url: 'https://github.com/rj0000/node-todo-cicd.git', branch: 'master'
+            }
+            
+            
+        }
+        stage('Build'){
+            steps{
+                sh 'docker build . -t rj436/todo_cicd'
+            }
+            
+        }
+        stage('test'){
+            steps{
+                echo "Testing"
+            }
+            
+        }
+        stage('Deploy'){
+            steps{
+                sh 'docker-compose down && docker-compose up -d --no-deps --build web'
+            }
+            
+        }
+    }
+}
